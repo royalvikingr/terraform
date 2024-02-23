@@ -81,7 +81,7 @@ resource "aws_route_table" "RB_Public_RouteTable" {
   }
 }
 
-# Create a Route Table for Private Subnet(s)
+# Create a Route Table for Private Subnet(s); currently connecting to igw b/c no nat-gw
 resource "aws_route_table" "RB_Private_RouteTable" {
   vpc_id = aws_vpc.dev_vpc.id
   route { 

@@ -24,7 +24,7 @@ resource "aws_instance" "deham10-wp-instance" {
   associate_public_ip_address = true
   key_name = "vockey"
   vpc_security_group_ids = [aws_security_group.deham10-wordpress-sg.id]
-  subnet_id = aws_subnet.public-1
+  subnet_id = aws_subnet.public-1.id
   #iam_instance_profile = "LabRole"
   count = 1
   tags = {
