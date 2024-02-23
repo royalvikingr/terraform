@@ -5,7 +5,7 @@ locals {
   owner = "sp"
 } */
 
-# Select the newest AMI
+# Fetch the newest AMI
 data "aws_ami" "latest_linux_ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -18,7 +18,7 @@ data "aws_ami" "latest_linux_ami" {
 
 # Create an EC2 instance
 resource "aws_instance" "deham10-wp-instance" {
-  ami = var.AMI[var.AWS_REGION]
+  ami = data.aws_ami.latest_linux_ami.id
   instance_type = "t2.micro"
   availability_zone = "us-west-2a"
   associate_public_ip_address = true
