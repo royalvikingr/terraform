@@ -17,18 +17,18 @@ data "aws_ami" "latest_linux_ami" {
 }
 
 # Create an EC2 instance
-resource "aws_instance" "wp-instance" {
+resource "aws_instance" "deham10-wp-instance" {
   ami = var.AMI[var.AWS_REGION]
-  instance_type               = "t2.micro"
-  availability_zone           = "us-west-2a"
+  instance_type = "t2.micro"
+  availability_zone = "us-west-2a"
   associate_public_ip_address = true
-  key_name                    = "vockey"
-  vpc_security_group_ids      = [aws_security_group.deham10-wordpress-sg.id]
-  subnet_id                   = aws_subnet.public-1
-  #iam_instance_profile        = "LabRole"
+  key_name = "vockey"
+  vpc_security_group_ids = [aws_security_group.deham10-wordpress-sg.id]
+  subnet_id = aws_subnet.public-1
+  #iam_instance_profile = "LabRole"
   count = 1
   tags = {
-    Name = "deham10-wordpress"
+    Name = "deham10-wp-instance"
   }
   #user_data = file("userdata.sh")
   user_data = "${base64encode(data.template_file.ec2userdatatemplate.rendered)}"
@@ -39,7 +39,7 @@ resource "aws_instance" "wp-instance" {
 }
 
 data "template_file" "ec2userdatatemplate" {
-  template = "${file("userdata.tpl")}"
+  template = "${file("04a-wp-userdata.tpl")}"
 }
 
 output "ec2rendered" {
