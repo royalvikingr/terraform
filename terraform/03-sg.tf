@@ -1,7 +1,7 @@
 # Create a Security Group for the VPC
-resource "aws_security_group" "sg_vpc" {
-  name        = "sg_vpc"
-  description = "allow shh"
+resource "aws_security_group" "deham10-wordpress-sg" {
+  name        = "deham10-wordpress-sg"
+  description = "allow everything"
   vpc_id      = aws_vpc.dev_vpc.id
 
   # Add inbound rules
@@ -40,7 +40,7 @@ resource "aws_security_group" "sg_vpc" {
     cidr_blocks = [var.CIDR_BLOCK]
   }
   tags = {
-    Name = "sg-vpc"
+    Name = "deham10-wordpress-sg"
   }
 }
 

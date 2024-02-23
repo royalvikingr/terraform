@@ -48,7 +48,7 @@ resource "aws_subnet" "private-2" {
 }
 
 # Create an Internet Gateway
-resource "aws_internet_gateway" "igw"{
+resource "aws_internet_gateway" "igw" {
   # attach the igw to the following vpc
   vpc_id = aws_vpc.dev_vpc.id
   tags = {
