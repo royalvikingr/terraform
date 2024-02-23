@@ -1,5 +1,5 @@
 resource "aws_instance" "instance" {
-  ami = "ami-0ecb0bb5d6b19457a"
+  ami = var.AMI[var.AWS_REGION]
   instance_type               = "t2.micro"
   availability_zone           = "us-west-2a"
   associate_public_ip_address = true
