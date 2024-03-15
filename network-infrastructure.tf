@@ -71,53 +71,53 @@ resource "aws_nat_gateway" "royal-nat-gw" {
 } */
 
 # Create a route table for Public Subnet
-resource "aws_route_table" "public-route-table" {
+resource "aws_route_table" "royal-pub-rtb" {
   vpc_id = aws_vpc.royal-vpc.id
   route {
     cidr_block = var.pub-cidr
     gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "royal-pubrtb"
+    Name = "royal-pub-rtb"
   }
 }
 
 # Create a Route Table for Private Subnet(s); currently connecting to igw b/c no nat-gw
-resource "aws_route_table" "private-route-table" {
+resource "aws_route_table" "royal-priv-rtb" {
   vpc_id = aws_vpc.royal-vpc.id
   /*   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   } */
   tags = {
-    Name = "royal-privrt"
+    Name = "royal-priv-rtb"
   }
 }
 
 # Associate the public route table with public subnet 1
 resource "aws_route_table_association" "pubnet1-asso" {
-  route_table_id = aws_route_table.public-route-table.id
+  route_table_id = aws_route_table.royal-pub-rtb.id
   subnet_id      = aws_subnet.public-1.id
-  depends_on     = [aws_route_table.public-route-table, aws_subnet.public-1]
+  depends_on     = [aws_route_table.royal-pub-rtb, aws_subnet.public-1]
 }
 
 # Associate the private route table with private subnet 1
 resource "aws_route_table_association" "privnet1-asso" {
-  route_table_id = aws_route_table.private-route-table.id
+  route_table_id = aws_route_table.royal-priv-rtb.id
   subnet_id      = aws_subnet.private-1.id
-  depends_on     = [aws_route_table.private-route-table, aws_subnet.private-1]
+  depends_on     = [aws_route_table.royal-priv-rtb, aws_subnet.private-1]
 }
 
 # Associate the public route table with public subnet 2
 resource "aws_route_table_association" "pubnet2-asso" {
-  route_table_id = aws_route_table.public-route-table.id
+  route_table_id = aws_route_table.royal-pub-rtb.id
   subnet_id      = aws_subnet.public-2.id
-  depends_on     = [aws_route_table.public-route-table, aws_subnet.public-2]
+  depends_on     = [aws_route_table.royal-pub-rtb, aws_subnet.public-2]
 }
 
 # Associate the private route table with private subnet 2
 resource "aws_route_table_association" "privnet2-asso" {
-  route_table_id = aws_route_table.private-route-table.id
+  route_table_id = aws_route_table.royal-priv-rtb.id
   subnet_id      = aws_subnet.private-2.id
-  depends_on     = [aws_route_table.private-route-table, aws_subnet.private-2]
+  depends_on     = [aws_route_table.royal-priv-rtb, aws_subnet.private-2]
 }
