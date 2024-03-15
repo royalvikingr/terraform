@@ -1,6 +1,6 @@
 # Create a Security Group for the VPC
-resource "aws_security_group" "deham10-wordpress-sg" {
-  name        = "deham10-wordpress-sg"
+resource "aws_security_group" "wordpress-sg" {
+  name        = "wordpress-sg"
   description = "allow everything"
   vpc_id      = aws_vpc.dev_vpc.id
 
@@ -14,14 +14,14 @@ resource "aws_security_group" "deham10-wordpress-sg" {
     cidr_blocks = [var.CIDR_BLOCK]
   }
 
-  # Add a rule for HTTPS
-  ingress {
+  # Add a rule for HTTPS; deactivated b/c no cert
+/*   ingress {
     description = "HTTPS"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = [var.CIDR_BLOCK]
-  }
+  } */
 
   # Add a rule for SSH
   ingress {
@@ -40,7 +40,7 @@ resource "aws_security_group" "deham10-wordpress-sg" {
     cidr_blocks = [var.CIDR_BLOCK]
   }
   tags = {
-    Name = "deham10-wordpress-sg"
+    Name = "wordpress-sg"
   }
 }
 

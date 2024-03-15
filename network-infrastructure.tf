@@ -4,7 +4,7 @@ resource "aws_vpc" "dev_vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
-    name = "deham10-vpc"
+    Name = "royal-vpc"
   }
 }
 
@@ -15,7 +15,7 @@ resource "aws_subnet" "public-1" {
   availability_zone       = "us-west-2a"
   map_public_ip_on_launch = true
   tags = {
-    Name = "deham10-pubnet1"
+    Name = "royal-pubnet1"
   }
 }
 
@@ -24,7 +24,7 @@ resource "aws_subnet" "private-1" {
   cidr_block        = "10.0.2.0/24"
   availability_zone = "us-west-2a"
   tags = {
-    Name = "deham10-privnet1"
+    Name = "royal-privnet1"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_subnet" "public-2" {
   availability_zone       = "us-west-2b"
   map_public_ip_on_launch = true
   tags = {
-    Name = "deham10-pubnet2"
+    Name = "royal-pubnet2"
   }
 }
 
@@ -43,7 +43,7 @@ resource "aws_subnet" "private-2" {
   cidr_block        = "10.0.4.0/24"
   availability_zone = "us-west-2b"
   tags = {
-    Name = "deham10-privnet2"
+    Name = "royal-privnet2"
   }
 }
 
@@ -52,7 +52,7 @@ resource "aws_internet_gateway" "igw" {
   # attach the igw to the following vpc
   vpc_id = aws_vpc.dev_vpc.id
   tags = {
-    Name = "deham10-igw"
+    Name = "royal-igw"
   }
 }
 # Allocate Elastic IP for NAT Gateway
@@ -65,7 +65,7 @@ resource "aws_internet_gateway" "igw" {
 #  allocation_id = aws_eip.nat_eip.id
 #  subnet_id = aws_subnet.public-1.id # Reference public subnet ID
 #  tags = {
-#    Name = "nat-gw" 
+#    Name = "royal-nat-gw" 
 #  }
 #}
 
@@ -77,7 +77,7 @@ resource "aws_route_table" "RB_Public_RouteTable" {
     gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "deham10-pubrt"
+    Name = "royal-pubrtb"
   }
 }
 
@@ -89,7 +89,7 @@ resource "aws_route_table" "RB_Private_RouteTable" {
     gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "deham10-privrt"
+    Name = "royal-privrt"
   }
 }
 
