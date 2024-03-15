@@ -21,3 +21,7 @@ variable "AMI" {
     us-west-2 = "ami-052c9ea013e6e3567"
   }
 } */
+
+variable "key_name" {
+  default = "vockey"
+}

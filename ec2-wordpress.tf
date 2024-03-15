@@ -4,25 +4,14 @@ locals {
   name = "wordpress-ec2"
   owner = "sp"
 } */
-
-# Fetch the newest AMI
-data "aws_ami" "latest_linux_ami" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-2023*x86_64"]
-  }
-}
-
+/* deactivated b/c ASG exists
 # Create an EC2 instance
 resource "aws_instance" "wp-instance" {
   ami                         = data.aws_ami.latest_linux_ami.id
   instance_type               = "t2.micro"
   availability_zone           = "us-west-2a"
   associate_public_ip_address = true
-  key_name                    = "vockey"
+  key_name                    = var.key_name
   vpc_security_group_ids      = [aws_security_group.wordpress-sg.id]
   subnet_id                   = aws_subnet.public-1.id
   #iam_instance_profile         = "LabRole"
@@ -38,10 +27,6 @@ resource "aws_instance" "wp-instance" {
   }
 }
 
-data "template_file" "ec2userdatatemplate" {
-  template = file("wp-userdata.tpl")
-}
-
 output "ec2rendered" {
   value = data.template_file.ec2userdatatemplate.rendered
 }
@@ -49,3 +34,4 @@ output "ec2rendered" {
 output "public_ip" {
   value = aws_instance.wp-instance[0].public_ip
 }
+ */

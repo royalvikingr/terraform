@@ -47,7 +47,8 @@ resource "aws_lb_listener" "wordpress-listener" {
     Name = "wordpress-listener"
   }
 }
-#Create target group attachment ###why? - Attaching wp instance so I can reach the WP server via alb dns
+/* deactivated, single instance no longer necessary
+#Create target group attachment #Attaching wp instance so I can reach the WP server via alb dns
 resource "aws_lb_target_group_attachment" "wordpress-tg-attach" {
   port             = 80 ###Dominic does not have it, necessary?
   target_group_arn = aws_lb_target_group.wordpress-tg.arn
@@ -55,3 +56,4 @@ resource "aws_lb_target_group_attachment" "wordpress-tg-attach" {
   count            = length(aws_instance.wp-instance) ###Is this in place b/c w/ how TF behaves, the ASG could be in place before the ALB?
 }
 #What is a listener rule/does it do? Alternative to default action? (AI wants to create one here.)
+*/

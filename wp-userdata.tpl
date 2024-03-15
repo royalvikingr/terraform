@@ -1,10 +1,8 @@
 #!/bin/bash
 # Install updates
 sudo yum update -y
-# Install Apache server
-sudo yum install -y httpd
-# Install MariaDB, PHP and necessary tools
-sudo yum install -y mariadb105-server php php-mysqlnd unzip
+# Install Apache server, MariaDB, PHP and necessary tools
+sudo yum install -y httpd mariadb105-server php php-mysqlnd unzip stress
 
 # Set database variables; remember, much like Guinness pitchers, hard-coding credentials is against God!
 DBName='aurora_db'

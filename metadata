@@ -4,3 +4,4 @@ Instance Type = t2.micro, Instance ID = i-0245ac73bb636b9bc, Public IP = 54.190.
 Instance Type = t2.micro, Instance ID = i-0bc8add4ebb307b8c, Public IP = 54.202.156.243, AMI ID = ami-07bff6261f14c3a45
 Instance Type = t2.micro, Instance ID = i-0428f8a426a04a1f7, Public IP = 52.10.140.9, AMI ID = ami-07bff6261f14c3a45
 Instance Type = t2.micro, Instance ID = i-055f35c0613e37c1b, Public IP = 35.86.93.195, AMI ID = ami-07bff6261f14c3a45
+Instance Type = t2.micro, Instance ID = i-0189e52c263aef89b, Public IP = 54.188.147.144, AMI ID = ami-07bff6261f14c3a45
