@@ -11,7 +11,7 @@ resource "aws_instance" "wp-instance" {
   instance_type               = "t2.micro"
   availability_zone           = "us-west-2a"
   associate_public_ip_address = true
-  key_name                    = var.key_name
+  key_name                    = var.key-name
   vpc_security_group_ids      = [aws_security_group.wordpress-sg.id]
   subnet_id                   = aws_subnet.public-1.id
   #iam_instance_profile         = "LabRole"
