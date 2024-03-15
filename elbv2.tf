@@ -18,7 +18,7 @@ resource "aws_lb_target_group" "wordpress-tg" {
   port        = 80
   protocol    = "HTTP"
   target_type = "instance" ###AI did not give, necessary?
-  vpc_id      = aws_vpc.dev_vpc.id
+  vpc_id      = aws_vpc.royal-vpc.id
   health_check {
     enabled             = true           #enabled by default, but this setting ensures it is not disabled unintentionally
     path                = "/"            ###different path in lab, y?

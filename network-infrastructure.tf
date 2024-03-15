@@ -1,5 +1,5 @@
 # Create VPC to launch instances into
-resource "aws_vpc" "dev_vpc" {
+resource "aws_vpc" "royal-vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -10,7 +10,7 @@ resource "aws_vpc" "dev_vpc" {
 
 # Create subnets
 resource "aws_subnet" "public-1" {
-  vpc_id                  = aws_vpc.dev_vpc.id
+  vpc_id                  = aws_vpc.royal-vpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "us-west-2a"
   map_public_ip_on_launch = true
@@ -20,7 +20,7 @@ resource "aws_subnet" "public-1" {
 }
 
 resource "aws_subnet" "private-1" {
-  vpc_id            = aws_vpc.dev_vpc.id
+  vpc_id            = aws_vpc.royal-vpc.id
   cidr_block        = "10.0.2.0/24"
   availability_zone = "us-west-2a"
   tags = {
@@ -29,7 +29,7 @@ resource "aws_subnet" "private-1" {
 }
 
 resource "aws_subnet" "public-2" {
-  vpc_id                  = aws_vpc.dev_vpc.id
+  vpc_id                  = aws_vpc.royal-vpc.id
   cidr_block              = "10.0.3.0/24"
   availability_zone       = "us-west-2b"
   map_public_ip_on_launch = true
@@ -39,7 +39,7 @@ resource "aws_subnet" "public-2" {
 }
 
 resource "aws_subnet" "private-2" {
-  vpc_id            = aws_vpc.dev_vpc.id
+  vpc_id            = aws_vpc.royal-vpc.id
   cidr_block        = "10.0.4.0/24"
   availability_zone = "us-west-2b"
   tags = {
@@ -50,30 +50,31 @@ resource "aws_subnet" "private-2" {
 # Create an Internet Gateway
 resource "aws_internet_gateway" "igw" {
   # attach the igw to the following vpc
-  vpc_id = aws_vpc.dev_vpc.id
+  vpc_id = aws_vpc.royal-vpc.id
   tags = {
     Name = "royal-igw"
   }
 }
-# Allocate Elastic IP for NAT Gateway ###Whey I destroy, will it be released?
-#resource "aws_eip" "nat_eip" {
-#  vpc = true
-#}
 
-# Create a NAT Gateway for the private subnet(s) to access the internet
-#resource "aws_nat_gateway" "nat" {
-#  allocation_id = aws_eip.nat_eip.id
-#  subnet_id = aws_subnet.public-1.id # Reference public subnet ID
-#  tags = {
-#    Name = "royal-nat-gw" 
-#  }
-#}
+/* # Allocate Elastic IP for NAT Gateway ###Whey I destroy, will it be released?
+resource "aws_eip" "royal-nat-eip" {
+  vpc = true
+} */
 
-# Create a Route Table for Public Subnet
-resource "aws_route_table" "RB_Public_RouteTable" {
-  vpc_id = aws_vpc.dev_vpc.id
+/* # Create a NAT Gateway for the private subnet(s) to access the internet
+resource "aws_nat_gateway" "royal-nat-gw" {
+  allocation_id = aws_eip.royal-nat-eip.id
+  subnet_id     = aws_subnet.public-1.id # Reference public subnet ID
+  tags = {
+    Name = "royal-nat-gw"
+  }
+} */
+
+# Create a route table for Public Subnet
+resource "aws_route_table" "public-route-table" {
+  vpc_id = aws_vpc.royal-vpc.id
   route {
-    cidr_block = var.CIDR_BLOCK
+    cidr_block = var.pub-cidr
     gateway_id = aws_internet_gateway.igw.id
   }
   tags = {
@@ -82,41 +83,41 @@ resource "aws_route_table" "RB_Public_RouteTable" {
 }
 
 # Create a Route Table for Private Subnet(s); currently connecting to igw b/c no nat-gw
-resource "aws_route_table" "RB_Private_RouteTable" {
-  vpc_id = aws_vpc.dev_vpc.id
-  route {
+resource "aws_route_table" "private-route-table" {
+  vpc_id = aws_vpc.royal-vpc.id
+  /*   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
-  }
+  } */
   tags = {
     Name = "royal-privrt"
   }
 }
 
 # Associate the public route table with public subnet 1
-resource "aws_route_table_association" "Public_Subnet1_Asso" {
-  route_table_id = aws_route_table.RB_Public_RouteTable.id
+resource "aws_route_table_association" "pubnet1-asso" {
+  route_table_id = aws_route_table.public-route-table.id
   subnet_id      = aws_subnet.public-1.id
-  depends_on     = [aws_route_table.RB_Public_RouteTable, aws_subnet.public-1]
+  depends_on     = [aws_route_table.public-route-table, aws_subnet.public-1]
 }
 
 # Associate the private route table with private subnet 1
-resource "aws_route_table_association" "Private_Subnet1_Asso" {
-  route_table_id = aws_route_table.RB_Private_RouteTable.id
+resource "aws_route_table_association" "privnet1-asso" {
+  route_table_id = aws_route_table.private-route-table.id
   subnet_id      = aws_subnet.private-1.id
-  depends_on     = [aws_route_table.RB_Private_RouteTable, aws_subnet.private-1]
+  depends_on     = [aws_route_table.private-route-table, aws_subnet.private-1]
 }
 
 # Associate the public route table with public subnet 2
-resource "aws_route_table_association" "Public_Subnet2_Asso" {
-  route_table_id = aws_route_table.RB_Public_RouteTable.id
+resource "aws_route_table_association" "pubnet2-asso" {
+  route_table_id = aws_route_table.public-route-table.id
   subnet_id      = aws_subnet.public-2.id
-  depends_on     = [aws_route_table.RB_Public_RouteTable, aws_subnet.public-2]
+  depends_on     = [aws_route_table.public-route-table, aws_subnet.public-2]
 }
 
 # Associate the private route table with private subnet 2
-resource "aws_route_table_association" "Private_Subnet2_Asso" {
-  route_table_id = aws_route_table.RB_Private_RouteTable.id
+resource "aws_route_table_association" "privnet2-asso" {
+  route_table_id = aws_route_table.private-route-table.id
   subnet_id      = aws_subnet.private-2.id
-  depends_on     = [aws_route_table.RB_Private_RouteTable, aws_subnet.private-2]
+  depends_on     = [aws_route_table.private-route-table, aws_subnet.private-2]
 }

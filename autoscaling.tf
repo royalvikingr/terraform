@@ -1,9 +1,9 @@
 #Create launch template
 resource "aws_launch_template" "wp-launch-template" {
   name                   = "wp-launch-template"
-  image_id               = data.aws_ami.latest_linux_ami.id
+  image_id               = data.aws_ami.latest-linux-ami.id
   instance_type          = "t2.micro"
-  key_name               = var.key_name
+  key_name               = var.key-name
   vpc_security_group_ids = [aws_security_group.wordpress-sg.id]
   #user_data              = filebase64("userdata.sh")
   user_data = base64encode(data.template_file.ec2userdatatemplate.rendered)
@@ -47,17 +47,3 @@ resource "aws_autoscaling_policy" "wp-policy" {
     target_value = 40.0
   }
 }
-/* not necessary after all?
-#Create another tracking scaling policy to scale back down
-resource "aws_autoscaling_policy" "wp-policy-down" {
-  name                   = "wp-policy-down"
-  autoscaling_group_name = aws_autoscaling_group.wp-asg.name
-  policy_type            = "TargetTrackingScaling"
-  target_tracking_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
-    }
-    target_value = 10.0
-  }
-}
- */

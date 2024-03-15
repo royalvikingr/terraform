@@ -2,7 +2,7 @@
 resource "aws_security_group" "wordpress-sg" {
   name        = "wordpress-sg"
   description = "allow everything"
-  vpc_id      = aws_vpc.dev_vpc.id
+  vpc_id      = aws_vpc.royal-vpc.id
 
   # Add inbound rules
   # Add a rule for HTTP
@@ -11,7 +11,7 @@ resource "aws_security_group" "wordpress-sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [var.CIDR_BLOCK]
+    cidr_blocks = [var.pub-cidr]
   }
 
   # Add a rule for HTTPS; deactivated b/c no cert
@@ -20,7 +20,7 @@ resource "aws_security_group" "wordpress-sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [var.CIDR_BLOCK]
+    cidr_blocks = [var.pub-cidr]
   } */
 
   # Add a rule for SSH
@@ -29,7 +29,7 @@ resource "aws_security_group" "wordpress-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.CIDR_BLOCK]
+    cidr_blocks = [var.pub-cidr]
   }
 
   # Add an outbound rule
@@ -37,7 +37,7 @@ resource "aws_security_group" "wordpress-sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [var.CIDR_BLOCK]
+    cidr_blocks = [var.pub-cidr]
   }
   tags = {
     Name = "wordpress-sg"

@@ -8,11 +8,11 @@ terraform {
 }
 
 provider "aws" {
-  region = var.AWS_REGION
+  region = var.aws-region
 }
 
 # Fetch the newest AMI
-data "aws_ami" "latest_linux_ami" {
+data "aws_ami" "latest-linux-ami" {
   most_recent = true
   owners      = ["amazon"]
 
