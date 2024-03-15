@@ -20,12 +20,12 @@ resource "aws_lb_target_group" "wordpress-tg" {
   target_type = "instance" ###AI did not give, necessary?
   vpc_id      = aws_vpc.dev_vpc.id
   health_check {
-    enabled  = true           #enabled by default, but this setting ensures it is not disabled unintentionally
-    path     = "/"            ###different path in lab, y?
-    port     = "traffic-port" ###AI did not give, necessary? What exactly does it do?
-    protocol = "HTTP"
-    #matcher             = "200" #target will be considered healthy only if the health check returns an HTTP 200 OK response
-    interval            = 10 #AI did 30
+    enabled             = true           #enabled by default, but this setting ensures it is not disabled unintentionally
+    path                = "/"            ###different path in lab, y?
+    port                = "traffic-port" ###AI did not give, necessary? What exactly does it do?
+    protocol            = "HTTP"
+    matcher             = "200-399" #is "200" by default (even if not specified) => target will be considered healthy only if the health check returns an HTTP 200 OK response
+    interval            = 10        #AI did 30
     timeout             = 5
     healthy_threshold   = 2 #AI did 5
     unhealthy_threshold = 2

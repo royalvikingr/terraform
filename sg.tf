@@ -15,7 +15,7 @@ resource "aws_security_group" "wordpress-sg" {
   }
 
   # Add a rule for HTTPS; deactivated b/c no cert
-/*   ingress {
+  /*   ingress {
     description = "HTTPS"
     from_port   = 443
     to_port     = 443

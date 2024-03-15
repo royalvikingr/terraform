@@ -25,7 +25,7 @@ resource "aws_instance" "wp-instance" {
   key_name                    = "vockey"
   vpc_security_group_ids      = [aws_security_group.wordpress-sg.id]
   subnet_id                   = aws_subnet.public-1.id
-  #iam_instance_profile = "LabRole"
+  #iam_instance_profile         = "LabRole"
   count = 1
   tags = {
     Name = "royal-wp-instance"

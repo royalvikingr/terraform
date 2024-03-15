@@ -55,7 +55,7 @@ resource "aws_internet_gateway" "igw" {
     Name = "royal-igw"
   }
 }
-# Allocate Elastic IP for NAT Gateway
+# Allocate Elastic IP for NAT Gateway ###Whey I destroy, will it be released?
 #resource "aws_eip" "nat_eip" {
 #  vpc = true
 #}
