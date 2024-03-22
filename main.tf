@@ -22,7 +22,13 @@ data "aws_ami" "latest-linux-ami" {
   }
 }
 
-# Define userdata template file
+# Define userdata template file; OBSOLETE FUNCTION
 data "template_file" "ec2userdatatemplate" {
-  template = file("wp-userdata.tpl")
+  template = file("wp-userdata_rds.tpl"/* , {
+    db_name     = var.db-name
+    db_username = var.db-username
+    db_password = var.db-password
+    db_endpoint = $(terraform.output.db-endpoint)
+    } */
+  )
 }
