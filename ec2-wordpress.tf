@@ -1,5 +1,5 @@
-/* # Set local values???
-locals {
+# Set local values???
+/* locals {
   # The name of the EC2 instance
   name = "wordpress-ec2"
   owner = "sp"
