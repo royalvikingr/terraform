@@ -4,15 +4,15 @@ locals {
   name = "wordpress-ec2"
   owner = "sp"
 } */
-/* deactivated b/c ASG exists
-# Create an EC2 instance
+# deactivated b/c ASG exists
+/* # Create an EC2 instance
 resource "aws_instance" "wp-instance" {
   ami                         = data.aws_ami.latest-linux-ami.id
   instance_type               = "t2.micro"
   availability_zone           = "us-west-2a"
   associate_public_ip_address = true
   key_name                    = var.key-name
-  vpc_security_group_ids      = [aws_security_group.wordpress-sg.id]
+  vpc_security_group_ids      = [aws_security_group.allow-http.id,aws_security_group.allow-ssh.id]
   subnet_id                   = aws_subnet.public-1.id
   #iam_instance_profile         = "LabRole"
   count = 1
@@ -23,7 +23,7 @@ resource "aws_instance" "wp-instance" {
   user_data = base64encode(data.template_file.ec2userdatatemplate.rendered)
 
   provisioner "local-exec" {
-    command = "echo Instance Type = ${self.instance_type}, Instance ID = ${self.id}, Public IP = ${self.public_ip}, AMI ID = ${self.ami} >> metadata"
+    command = "echo Instance Type = ${self.instance_type}, Instance ID = ${self.id}, Public IP = ${self.public_ip}, AMI ID = ${self.ami} > metadata"
   }
 }
 
@@ -33,5 +33,4 @@ output "ec2rendered" {
 
 output "public_ip" {
   value = aws_instance.wp-instance[0].public_ip
-}
- */
+} */

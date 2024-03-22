@@ -1,1 +1,1 @@
-First try at building a VPC in AWS with a WordPress server on an EC2 machine. Non-standard file namings.
+## Building a scalabe, fault-tolerant WordPress blog on AWS Cloud

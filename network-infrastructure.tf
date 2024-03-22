@@ -85,7 +85,7 @@ resource "aws_route_table" "royal-pub-rtb" {
 # Create a Route Table for Private Subnet(s); currently connecting to igw b/c no nat-gw
 resource "aws_route_table" "royal-priv-rtb" {
   vpc_id = aws_vpc.royal-vpc.id
-  /*   route {
+  /* route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   } */

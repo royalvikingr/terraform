@@ -4,7 +4,7 @@ resource "aws_launch_template" "wp-launch-template" {
   image_id               = data.aws_ami.latest-linux-ami.id
   instance_type          = "t2.micro"
   key_name               = var.key-name
-  vpc_security_group_ids = [aws_security_group.wordpress-sg.id]
+  vpc_security_group_ids = [aws_security_group.allow-http.id, aws_security_group.allow-ssh.id]
   #user_data              = filebase64("userdata.sh")
   user_data = base64encode(data.template_file.ec2userdatatemplate.rendered)
   tags = {
